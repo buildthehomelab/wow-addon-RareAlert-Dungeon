@@ -1,4 +1,4 @@
--- RareAlert: watches for dungeon rares and alerts when one is in range.
+-- RareAlert-Dungeons: watches for dungeon rares and alerts when one is in range.
 -- Scanning uses the unitscan trick: TargetUnit() is protected, so calling it from an addon
 -- fires ADDON_ACTION_FORBIDDEN, but only when a unit with that name is close enough to target.
 local ADDON, ns = ...
@@ -40,7 +40,7 @@ for _, instance in ipairs(ns.instances) do
 end
 
 function ns.Print(msg)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffff8000RareAlert:|r " .. msg)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffff8000RareAlert-Dungeons:|r " .. msg)
 end
 
 local function CurrentInstance()

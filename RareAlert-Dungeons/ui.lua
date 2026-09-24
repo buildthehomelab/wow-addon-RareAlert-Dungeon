@@ -1,4 +1,4 @@
--- RareAlert UI: the click-to-target alert, the screen flash, and the rare list window.
+-- RareAlert-Dungeons UI: the click-to-target alert, the screen flash, and the rare list window.
 local ADDON, ns = ...
 
 local GetTime, InCombatLockdown = GetTime, InCombatLockdown
@@ -111,7 +111,7 @@ end)
 button:SetScript("OnDragStop", button.StopMovingOrSizing)
 button:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-	GameTooltip:AddLine(shown or "RareAlert")
+	GameTooltip:AddLine(shown or "RareAlert-Dungeons")
 	GameTooltip:AddLine("Left-click to target", 1, 1, 1)
 	GameTooltip:AddLine("Right-click to dismiss", 1, 1, 1)
 	GameTooltip:AddLine("Shift-drag to move", 1, 1, 1)
