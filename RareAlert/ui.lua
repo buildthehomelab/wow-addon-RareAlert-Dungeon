@@ -237,8 +237,8 @@ local function Status(name)
 	if not s then return "|cff777777not seen|r" end
 	local now = GetTime()
 	if s.killed and now - s.killed < ns.KILLED_SECONDS then return "|cff999999killed|r" end
-	if s.seen and now - s.seen < ns.NEARBY_SECONDS then return "|cff20ff20NEARBY|r" end
-	if s.seen then return ("|cffccccccseen %dm ago|r"):format(math.floor((now - s.seen) / 60)) end
+	if s.present and now - s.present < ns.NEARBY_SECONDS then return "|cff20ff20NEARBY|r" end
+	if s.present then return ("|cffccccccseen %dm ago|r"):format(math.floor((now - s.present) / 60)) end
 	return "|cff777777not seen|r"
 end
 

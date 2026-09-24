@@ -25,6 +25,11 @@ it the game raises a "blocked action" event, but only when a unit with that name
 to target. RareAlert calls it for each rare twice a second and treats the event as "found". It
 hides the blocked-action popup for its own calls and still shows it for every other addon.
 
+A rare has to stay in range for 1.5 seconds before it alerts. On AzerothCore most dungeon rares
+spawn every time and a script despawns them half a second later unless they win their spawn
+roll, so without the wait you'd get an alert for a rare that isn't there. Rares you target or mouse
+over alert right away.
+
 Range is the client's visibility range, roughly 100 yards. Rares in a room you haven't reached yet
 won't show up until you're close.
 

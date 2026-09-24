@@ -12,11 +12,15 @@ ns.SCAN_INTERVAL = 0.5
 ns.REARM_SECONDS = 60     -- a rare must be out of range this long before it alerts again
 ns.KILLED_SECONDS = 600   -- ignore a killed rare (and its corpse) for this long
 ns.NEARBY_SECONDS = 2
+-- Most dungeon rares on AzerothCore spawn every time, then an "On AI Init" script despawns them
+-- 0.5s later unless they win their spawn roll. A scan can catch that flicker, so a rare must stay
+-- in range this long before it alerts.
+ns.CONFIRM_SECONDS = 1.5
 
 local DEFAULTS = { enabled = true, sound = true, flash = true, custom = {} }
 
 local db
-local state = {}    -- [name] = { seen = time, killed = time }
+local state = {}    -- [name] = { seen = time, since = sighting start, present = confirmed time, alerted = bool, killed = time }
 local watch = {}    -- [name] = rare info; what the scanner probes right now
 local spotted = {}  -- [name] = rare info; unlisted rares found by target/mouseover in this zone
 ns.state = state
@@ -73,7 +77,8 @@ local function Probe(name)
 	return hit
 end
 
-function ns.Found(name, rare)
+-- confirmed: the rare is certainly there (you targeted or moused over it), so skip the wait
+function ns.Found(name, rare, confirmed)
 	local now = GetTime()
 	local s = state[name]
 	if not s then
@@ -82,8 +87,16 @@ function ns.Found(name, rare)
 	end
 	local last = s.seen
 	s.seen = now
-	if s.killed and now - s.killed < ns.KILLED_SECONDS then return end
-	if last and now - last < ns.REARM_SECONDS then return end
+	if not last or now - last > ns.REARM_SECONDS then
+		s.alerted = false
+	end
+	if not last or now - last > ns.SCAN_INTERVAL * 2.5 then
+		s.since = now  -- missed a scan or more, so this is a new sighting
+	end
+	if not confirmed and now - s.since < ns.CONFIRM_SECONDS then return end
+	s.present = now  -- last time it was really there, for the list
+	if s.alerted or (s.killed and now - s.killed < ns.KILLED_SECONDS) then return end
+	s.alerted = true
 	ns.Alert(name, rare)
 end
 
@@ -115,7 +128,7 @@ local function CheckUnit(unit)
 		spotted[name] = rare
 		watch[name] = rare  -- keep scanning for it so it stays quiet while it is nearby
 	end
-	ns.Found(name, rare)
+	ns.Found(name, rare, true)
 end
 
 -- ---------------------------------------------------------------------------
