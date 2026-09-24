@@ -1,4 +1,4 @@
-# RareAlert
+# RareAlert-Dungeons
 
 A World of Warcraft **3.3.5a (Wrath of the Lich King)** addon that knows every rare spawn in the
 dungeons, scans for them while you're inside, and alerts you when one is in range. It's a
@@ -22,7 +22,7 @@ dungeon-focused cross between unitscan and RareScanner.
 
 It uses the same trick as unitscan. `TargetUnit()` is a protected function, so when an addon calls
 it the game raises a "blocked action" event, but only when a unit with that name is close enough
-to target. RareAlert calls it for each rare twice a second and treats the event as "found". It
+to target. RareAlert-Dungeons calls it for each rare twice a second and treats the event as "found". It
 hides the blocked-action popup for its own calls and still shows it for every other addon.
 
 A rare has to stay in range for 1.5 seconds before it alerts. On AzerothCore most dungeon rares
@@ -36,8 +36,10 @@ won't show up until you're close.
 ## Install
 
 1. Download this repo (Code → Download ZIP) and extract it.
-2. Copy the inner `RareAlert` folder into `World of Warcraft/Interface/AddOns/`, so you end up with `Interface/AddOns/RareAlert/RareAlert.toc`.
+2. Copy the inner `RareAlert-Dungeons` folder into `World of Warcraft/Interface/AddOns/`, so you end up with `Interface/AddOns/RareAlert-Dungeons/RareAlert-Dungeons.toc`.
 3. Restart the game.
+
+Upgrading from the old `RareAlert` folder: delete `Interface/AddOns/RareAlert` first, or both copies will load and alert twice. Settings start fresh under the new name.
 
 If you also run unitscan, remove the dungeon names from it; both addons would alert for them.
 
