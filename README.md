@@ -6,16 +6,20 @@ dungeon-focused cross between unitscan and RareScanner.
 
 ## Features
 
-- Built-in list of 40 dungeon rares, from Deviate Faerie Dragon in Wailing Caverns to the Karazhan
-  Servant's Quarters trio. The list comes from the AzerothCore world database: every rare or rare
-  elite creature with a spawn on a dungeon map, plus a few that scripts or quests spawn.
+- Built-in list of 29 dungeon rares, from Deviate Faerie Dragon in Wailing Caverns to Stonespine in
+  Stratholme. The list comes from the AzerothCore world database: every rare or rare elite creature
+  with a spawn on a dungeon map that rolls for its spawn, plus a few that quests summon.
+- Rare-ranked NPCs that are there on every run (Lorgus Jett, the Blackrock Depths trio,
+  Hearthsinger Forresten, the Karazhan Servant's Quarters trio and a few more) count as bosses:
+  no alert and no marker for them
 - Scans automatically in any dungeon on the list, only for that dungeon's rares
-- Alert: raid-warning text, a sound, an orange screen flash, and a button you click to target the rare
+- Alert: raid-warning text, an orange screen flash, an optional sound (off by default, `/rare sound`), and a button you click to target the rare
 - Puts a diamond raid marker on a rare once you target it (the alert button does that) or mouse over it
 - Chat message on entering a dungeon that lists its rares
 - `/rare` window lists the current dungeon's rares with their status (not seen, **nearby**, seen, killed),
   or every dungeon's rares when you're outside
 - Any rare you target or mouse over triggers the alert too, including world rares that aren't on the list
+  (but not the always-there bosses above)
 - Add your own names with `/rare add`; those are scanned everywhere, like unitscan
 - Stays quiet about a rare while it's nearby, and about its corpse after you kill it
 
@@ -55,7 +59,7 @@ If you also run unitscan, remove the dungeon names from it; both addons would al
 | --- | --- |
 | `/rare` | Show or hide the rare list |
 | `/rare on`, `/rare off` | Turn scanning on or off |
-| `/rare sound` | Toggle the alert sound |
+| `/rare sound` | Toggle the alert sound (off by default) |
 | `/rare flash` | Toggle the screen flash |
 | `/rare mark` | Toggle the diamond raid marker on rares |
 | `/rare add <name>` | Also scan for this name everywhere (exact, case-sensitive name) |
@@ -64,7 +68,7 @@ If you also run unitscan, remove the dungeon names from it; both addons would al
 | `/rare reset` | Forget which rares were seen or killed |
 
 `/rarealert` works as well. On the alert: left-click targets the rare, right-click or the X dismisses
-it, and shift-drag moves it. During combat the alert text and sound still fire, but the button only
+it, and shift-drag moves it. During combat the alert text (and sound, if on) still fire, but the button only
 updates once combat ends, since the game locks secure buttons in combat.
 
 ## Limitations
@@ -73,7 +77,7 @@ updates once combat ends, since the game locks secure buttons in combat.
 - The diamond goes on when the rare becomes your target or mouseover, not the moment the scan finds it:
   marking needs a unit, and the scan only knows the name. In a raid you need lead or assist to mark.
 - A rare that shares its name with another creature nearby can set off an alert.
-- The Fathom Stone, Dreadsteed and Karazhan rares only exist after their event or quest spawns them.
+- The Fathom Stone and Dreadsteed rares only exist after their quest summons them.
 
 ## Troubleshooting
 
