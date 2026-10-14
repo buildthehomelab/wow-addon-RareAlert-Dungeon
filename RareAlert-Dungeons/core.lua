@@ -19,7 +19,7 @@ ns.NEARBY_SECONDS = 2
 ns.CONFIRM_SECONDS = 1.5
 ns.MARK = 3  -- raid target icon: diamond
 
-local DEFAULTS = { enabled = true, sound = true, flash = true, mark = true, custom = {} }
+local DEFAULTS = { enabled = true, sound = false, flash = true, mark = true, custom = {} }
 
 local db
 local state = {}    -- [name] = { seen = time, since = sighting start, present = confirmed time, alerted = bool, killed = time }
@@ -129,6 +129,7 @@ end
 local function CheckUnit(unit)
 	if not UnitExists(unit) or UnitIsDead(unit) or UnitPlayerControlled(unit) then return end
 	local name = UnitName(unit)
+	if ns.alwaysSpawn[name] and not db.custom[name] then return end
 	local class = UnitClassification(unit)
 	if class ~= "rare" and class ~= "rareelite" then
 		if db.custom[name] then Mark(unit) end  -- your own names need not be rares
@@ -211,6 +212,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		db = RareAlertDB
 		for key, value in pairs(DEFAULTS) do
 			if db[key] == nil then db[key] = value end
+		end
+		-- 1.1: sound is off by default; turn it off once for installs saved with the old default
+		if not db.soundOffDefault then
+			db.sound = false
+			db.soundOffDefault = true
 		end
 		ns.db = db
 		-- UIParent would pop up "blocked action" on every successful probe
