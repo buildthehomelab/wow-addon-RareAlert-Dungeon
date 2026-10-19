@@ -228,12 +228,12 @@ local scroll = CreateFrame("ScrollFrame", "RareAlertListScroll", pane, "UIPanelS
 scroll:SetPoint("TOPLEFT", 8, -8)
 scroll:SetPoint("BOTTOMRIGHT", -28, 8)
 
-ns.Skin.Window(list, titlePlate, title, listClose, pane, scroll)
-
 local content = CreateFrame("Frame", nil, scroll)
 content:SetWidth(280)
 content:SetHeight(1)
 scroll:SetScrollChild(content)
+
+ns.Skin.Window(list, titlePlate, title, listClose, pane, scroll)
 
 local body = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 body:SetPoint("TOPLEFT")
