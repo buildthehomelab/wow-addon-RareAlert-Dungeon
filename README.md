@@ -22,6 +22,7 @@ dungeon-focused cross between unitscan and RareScanner.
   (but not the always-there bosses above)
 - Add your own names with `/rare add`; those are scanned everywhere, like unitscan
 - Stays quiet about a rare while it's nearby, and about its corpse after you kill it
+- Uses the stock Blizzard window and tooltip look; with DragonUI installed it wears DragonUI's window style instead
 
 ## How scanning works
 

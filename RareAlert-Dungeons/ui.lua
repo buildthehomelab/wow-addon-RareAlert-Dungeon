@@ -34,8 +34,12 @@ button:SetBackdrop({
 	tile = true, tileSize = 16, edgeSize = 16,
 	insets = { left = 4, right = 4, top = 4, bottom = 4 },
 })
-button:SetBackdropColor(0.12, 0.05, 0.18, 0.92)
-button:SetBackdropBorderColor(1, 0.5, 0)
+do  -- the stock tooltip's colours
+	local bg = TOOLTIP_DEFAULT_BACKGROUND_COLOR or { r = 0.09, g = 0.09, b = 0.19 }
+	local edge = TOOLTIP_DEFAULT_COLOR or { r = 1, g = 1, b = 1 }
+	button:SetBackdropColor(bg.r, bg.g, bg.b)
+	button:SetBackdropBorderColor(edge.r, edge.g, edge.b)
+end
 button:Hide()
 
 local model = CreateFrame("PlayerModel", nil, button)
@@ -46,7 +50,6 @@ model:SetPoint("LEFT", 6, 0)
 local header = button:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 header:SetPoint("TOPLEFT", model, "TOPRIGHT", 8, -2)
 header:SetText("RARE FOUND")
-header:SetTextColor(1, 0.5, 0)
 
 local nameText = button:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge")
 nameText:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -3)
@@ -60,6 +63,7 @@ infoText:SetJustifyH("LEFT")
 
 local close = CreateFrame("Button", nil, button, "UIPanelCloseButton")
 close:SetPoint("TOPRIGHT", 2, 2)
+ns.Skin.Alert(button, close)
 
 local shown       -- name on the button right now
 local shownAt
@@ -195,23 +199,45 @@ list:SetBackdrop({
 list:Hide()
 tinsert(UISpecialFrames, "RareAlertListFrame")  -- Escape closes it
 
+local titlePlate = list:CreateTexture(nil, "ARTWORK")
+titlePlate:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
+titlePlate:SetWidth(300)
+titlePlate:SetHeight(64)
+titlePlate:SetPoint("TOP", 0, 12)
+
 local title = list:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-title:SetPoint("TOP", 0, -18)
+title:SetPoint("TOP", titlePlate, "TOP", 0, -14)
 
-CreateFrame("Button", nil, list, "UIPanelCloseButton"):SetPoint("TOPRIGHT", -6, -6)
+local listClose = CreateFrame("Button", nil, list, "UIPanelCloseButton")
+listClose:SetPoint("TOPRIGHT", -6, -6)
 
-local scroll = CreateFrame("ScrollFrame", "RareAlertListScroll", list, "UIPanelScrollFrameTemplate")
-scroll:SetPoint("TOPLEFT", 20, -42)
-scroll:SetPoint("BOTTOMRIGHT", -38, 46)
+-- the list sits on a box like the stock options panels' (OptionsBoxTemplate)
+local pane = CreateFrame("Frame", nil, list)
+pane:SetPoint("TOPLEFT", 18, -36)
+pane:SetPoint("BOTTOMRIGHT", -18, 44)
+pane:SetBackdrop({
+	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true, tileSize = 16, edgeSize = 16,
+	insets = { left = 5, right = 5, top = 5, bottom = 5 },
+})
+pane:SetBackdropColor(0.1, 0.1, 0.1)
+pane:SetBackdropBorderColor(0.4, 0.4, 0.4)
+
+local scroll = CreateFrame("ScrollFrame", "RareAlertListScroll", pane, "UIPanelScrollFrameTemplate")
+scroll:SetPoint("TOPLEFT", 8, -8)
+scroll:SetPoint("BOTTOMRIGHT", -28, 8)
 
 local content = CreateFrame("Frame", nil, scroll)
-content:SetWidth(300)
+content:SetWidth(280)
 content:SetHeight(1)
 scroll:SetScrollChild(content)
 
+ns.Skin.Window(list, titlePlate, title, listClose, pane, scroll)
+
 local body = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 body:SetPoint("TOPLEFT")
-body:SetWidth(300)
+body:SetWidth(280)
 body:SetJustifyH("LEFT")
 body:SetSpacing(2)
 
@@ -221,6 +247,7 @@ local function FooterButton(label, width, onClick)
 	b:SetHeight(22)
 	b:SetText(label)
 	b:SetScript("OnClick", onClick)
+	ns.Skin.Button(b)
 	return b
 end
 
