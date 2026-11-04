@@ -195,11 +195,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local _, subEvent, _, _, _, _, destName = ...
-		if subEvent == "UNIT_DIED" and watch[destName] then
-			local s = state[destName] or {}
-			state[destName] = s
-			s.killed = GetTime()
-			ns.RefreshList()
+		if subEvent == "UNIT_DIED" then
+			ns.CloseAlert(destName)
+			if watch[destName] then
+				local s = state[destName] or {}
+				state[destName] = s
+				s.killed = GetTime()
+				ns.RefreshList()
+			end
 		end
 	elseif event == "PLAYER_TARGET_CHANGED" then
 		CheckUnit("target")

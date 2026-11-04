@@ -85,7 +85,18 @@ local function ApplyButton(name, rare)
 	if rare.id then
 		pcall(model.SetCreature, model, rare.id)  -- fails for creatures the client hasn't cached
 	end
+	button:SetAlpha(1)
 	button:Show()
+end
+
+-- In combat a secure button can't be hidden, but it can go transparent. It stays clickable
+-- until combat ends. The model is cleared too, in case it ignores its parent's alpha.
+local function Conceal()
+	button:SetAlpha(0)
+	model:ClearModel()
+	if GameTooltip:IsOwned(button) then
+		GameTooltip:Hide()
+	end
 end
 
 local combatWatcher = CreateFrame("Frame")
@@ -100,9 +111,23 @@ end)
 local function SetButton(name, rare)
 	if InCombatLockdown() then
 		pending = name and { name, rare } or false
+		if not name then Conceal() end
 		combatWatcher:RegisterEvent("PLAYER_REGEN_ENABLED")
 	else
 		ApplyButton(name, rare)
+	end
+end
+
+-- The rare died: drop its alert, whether it is on screen or still waiting for combat to end.
+function ns.CloseAlert(name)
+	if pending and pending[1] == name then
+		pending = nil
+	end
+	if shown ~= name then return end
+	if pending then
+		Conceal()  -- another rare's alert replaces this one when combat ends
+	else
+		SetButton(nil)
 	end
 end
 
@@ -115,6 +140,7 @@ button:SetScript("OnDragStart", function(self)
 end)
 button:SetScript("OnDragStop", button.StopMovingOrSizing)
 button:SetScript("OnEnter", function(self)
+	if self:GetAlpha() == 0 then return end  -- closed, waiting for combat to end
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
 	GameTooltip:AddLine(shown or "RareAlert-Dungeons")
 	GameTooltip:AddLine(ns.db.mark and "Left-click to target and mark" or "Left-click to target", 1, 1, 1)
