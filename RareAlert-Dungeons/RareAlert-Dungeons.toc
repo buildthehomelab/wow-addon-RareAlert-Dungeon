@@ -1,7 +1,7 @@
 ## Interface: 30300
 ## Title: RareAlert-Dungeons
 ## Notes: |cffcaf7faScans for dungeon rares and alerts you when one is nearby (unitscan-style)|r
-## Version: 1.2
+## Version: 1.3
 ## Author: buildthehomelab
 ## SavedVariables: RareAlertDB
 ## OptionalDeps: DragonUI

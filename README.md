@@ -13,7 +13,7 @@ dungeon-focused cross between unitscan and RareScanner.
   Hearthsinger Forresten, the Karazhan Servant's Quarters trio and a few more) count as bosses:
   no alert and no marker for them
 - Scans automatically in any dungeon on the list, only for that dungeon's rares
-- Alert: raid-warning text, an orange screen flash, an optional sound (off by default, `/rare sound`), and a button you click to target the rare
+- Alert: raid-warning text, an orange screen flash, an optional sound (off by default, `/rare sound`), and a button you click to target the rare. The button closes as soon as the rare dies
 - Puts a diamond raid marker on a rare once you target it (the alert button does that) or mouse over it
 - Chat message on entering a dungeon that lists its rares
 - `/rare` window lists the current dungeon's rares with their status (not seen, **nearby**, seen, killed),
@@ -69,8 +69,9 @@ If you also run unitscan, remove the dungeon names from it; both addons would al
 | `/rare reset` | Forget which rares were seen or killed |
 
 `/rarealert` works as well. On the alert: left-click targets the rare, right-click or the X dismisses
-it, and shift-drag moves it. During combat the alert text (and sound, if on) still fire, but the button only
-updates once combat ends, since the game locks secure buttons in combat.
+it, and shift-drag moves it. During combat the alert text (and sound, if on) still fire, but a new alert's
+button only appears once combat ends, since the game locks secure buttons in combat. If the rare dies during
+combat, its button disappears straight away. The empty spot still takes clicks until combat ends.
 
 ## Limitations
 
